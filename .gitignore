@@ -29,3 +29,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 .vscode/launch.json
 bootstrap-3.3.5-dist.zip
 user_guide/
+application/config/
