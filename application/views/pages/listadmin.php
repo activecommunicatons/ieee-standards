@@ -25,7 +25,7 @@
 
   
       <div class="container-fluid">
-      <!-- Example row of columns -->
+              <!-- Example row of columns -->
       <div class="col-lg-12 well">
           <h2>Document Managing</h2>
           </br>
