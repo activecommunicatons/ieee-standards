@@ -15,7 +15,7 @@
           
         <div id="navbar" class="navbar-collapse collapse">
          
-         <form method="post" accept-charset="utf-8" action="http://localhost/code/index.php/pages/index"
+         <form method="post" accept-charset="utf-8" action="<?php echo base_url();?>/index.php/pages/index"
           class="navbar-form navbars-right">            
 
                       <div class="form-group">
