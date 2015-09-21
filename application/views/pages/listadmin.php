@@ -29,7 +29,16 @@
       <div class="col-lg-12 well">
           <h2>Document Managing</h2>
           </br>
-		  <p>
+		  <?php foreach ($uploads as $upload_item): ?>
+
+        <h3><?php echo $upload_item['description']; ?></h3>
+        <div class="main">
+                <?php echo $upload_item['id']; ?>
+                
+<?php endforeach; ?>
+
+        </div>
+      
 			  
            </div>
        </div>

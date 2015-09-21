@@ -1,17 +1,28 @@
 <?php
 class Pages extends CI_Controller {
-
-        public function view($page = 'home')
+        
+        public function __construct()
+        {
+                parent::__construct();
+                
+                $this->load->model('IEEE_model');
+                $this->load->helper('url_helper');
+        }
+  
+        public function view($page = 'index')
         {
 
         if ( ! file_exists(APPPATH.'/views/pages/'.$page.'.php'))
         {
                 // Whoops, we don't have a page for that!
                 show_404();
+                echo 'yaha';
         }
-        $this->load->helper('url');    
+        $this->load->helper('url');
+            
         $data['title'] = ucfirst($page); // Capitalize the first letter
         $data['text'] = "This is test text";
+        $data['uploads'] = $this->IEEE_model->get_uploads();
        $this->load->view('templates/header', $data);
         $this->load->view('pages/'.$page, $data);
         $this->load->view('templates/footer', $data);   
@@ -47,5 +58,8 @@ class Pages extends CI_Controller {
         $this->load->view('pages/list', $data); 
         }     
        }
+ 
+ 
+        
         
 }
