@@ -7,6 +7,7 @@ class Pages extends CI_Controller {
                 
                 $this->load->model('IEEE_model');
                 $this->load->helper('url_helper');
+                $this->load->library('form_validation');
         }
   
         public function view($page = 'list')
@@ -33,7 +34,7 @@ class Pages extends CI_Controller {
         public function index(){
                         $this->load->helper('url');       
                         $this->load->helper('form');
-                        $this->load->library('form_validation');
+                       
                         
                         
                 
@@ -58,50 +59,40 @@ class Pages extends CI_Controller {
                                 $this->load->view('pages/list', $data); 
                         }     
        }
- 
-         public function form($slug = NULL)
+        
+        public function formsubmit(){
+                $this->form_validation->set_rules('description', 'Discription', 'required');
+                $this->form_validation->set_rules('filename', 'File Name', 'required');
+                $this->form_validation->set_rules('title', 'Title', 'required');
+                
+                if ($this->form_validation->run() === FALSE){
+                    $this->form($this->input->post('slug'));
+                }else{
+                    if (is_null($this->input->post('slug'))){
+                        $this->IEEE_model->set_uploads();     
+                    }else{
+                        $this->IEEE_model->edit_uploads();        
+                    }
+                    
+                    $this->view('listadmin');   
+                }
+                
+                //$this->form($this->input->post('slug'));
+        }
+        public function form($slug = NULL)
         {
-                        $this->load->helper('form');
-                        $this->load->library('form_validation');
-                         $this->load->library('CI_input');
-
-
-                        
-                        if (is_null($slug))
+                $this->load->helper('form');                        
+                $this->load->library('CI_input');
+                if (is_null($slug)){
                         $data['headtitle'] = 'Upload item';
-                        else{
+                }else{
                         $data['headtitle'] = 'Edit item';
                         $data['uploads'] = $this->IEEE_model->get_uploads($slug);
                         $check=true;
-                       
-                        }
-                        $this->form_validation->set_rules('description', 'Discription', 'required');
-                        $this->form_validation->set_rules('filename', 'File Name', 'required');
-                        $this->form_validation->set_rules('title', 'Title', 'required');
-                
-                        if ($this->form_validation->run() === FALSE)
-                        {
-                                $this->load->view('templates/header', $data);
-                                $this->load->view('pages/form');
-                                $this->load->view('templates/footer');
-                        
-                        }
-                        else
-                        {
-                              $check= $this->input->post['id'];
-                                    if (($check=='1')){
-                                         die ("sdasdasd"); 
-                                      $this->IEEE_model->edit_uploads();}
-                          
-                                else {
-                                           
-                                                $this->IEEE_model->set_uploads();}  
-                                $this->view('listadmin');
-                                
-                        }
-                                        
+                }
 
-             }
-        
-        
+                $this->load->view('templates/header', $data);
+                $this->load->view('pages/form');
+                $this->load->view('templates/footer');   
+        }
 }

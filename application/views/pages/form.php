@@ -31,16 +31,18 @@
       <div class="col-lg-12 well">
           
        <h2><?php echo $headtitle; ?></h2>
+       <?php echo validation_errors(); ?>
 
-<?php echo validation_errors(); ?>
+
 <div class="col-lg-4 form-group">
     
     
-<?php echo form_open('pages/form');
+<?php echo form_open('pages/formsubmit');
        if(!isset($uploads)){
             echo form_label("Title: ","title");
             if (empty(form_error('title'))){
-            echo form_input("title","","class=form-control");} 
+                echo form_input("title","","class=form-control");
+            } 
             else {?>
             <div class="form-group has-error">
         <?php echo form_input("title","","class=form-control");?>
@@ -72,7 +74,8 @@
             echo form_textarea("description",$uploads['description'],"class=form-control");?>
             </br>
         <?php    echo form_label("File Name: ","filename");
-            echo form_input("filename",$uploads['filename'],"class=form-control");
+            echo  form_input("filename",$uploads['filename'],"class=form-control");
+            echo  form_hidden('slug', $uploads['slug']);
             echo  form_hidden('id', $uploads['id']);?>
             </br>
            

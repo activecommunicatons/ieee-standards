@@ -55,6 +55,7 @@ $route['news'] = 'news';
 $route['(:any)'] = 'pages/view/$1';
 $route['default_controller'] = 'pages/view';
 $route['pages/form/(:any)'] = 'pages/form/$1';
+$route['pages/formsubmit'] = 'pages/formsubmit';
 $route['pages/listadmin'] = 'pages/view/listadmin';
 
 

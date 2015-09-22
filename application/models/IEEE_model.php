@@ -40,6 +40,7 @@ class IEEE_model extends CI_Model {
                 $slug = url_title($this->input->post('title'), 'dash', TRUE);
                 
                 $data = array(
+                        'id' => $this->input->post('id'),
                         'description' => $this->input->post('description'),
                         'slug' => $slug,
                         'title'=>$this->input->post('title'),
