@@ -54,4 +54,7 @@ $route['news/(:any)'] = 'news/view/$1';
 $route['news'] = 'news';
 $route['(:any)'] = 'pages/view/$1';
 $route['default_controller'] = 'pages/view';
-$route['scaffolding_trigger'] = 'abc';
+$route['pages/form/(:any)'] = 'pages/form/$1';
+$route['pages/listadmin'] = 'pages/view/listadmin';
+
+

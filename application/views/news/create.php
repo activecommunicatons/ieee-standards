@@ -3,7 +3,7 @@
 <?php echo validation_errors(); ?>
 
 <?php echo form_open('news/create'); ?>
-
+<div class="form-group">
     <label for="title">Title</label>
     <input type="input" name="title" /><br />
 
@@ -11,5 +11,5 @@
     <textarea name="text"></textarea><br />
 
     <input type="submit" name="submit" value="Create news item" />
-
+</div>
 </form>

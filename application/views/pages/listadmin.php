@@ -29,13 +29,20 @@
       <div class="col-lg-12 well">
           <h2>Document Managing</h2>
           </br>
+       <a href="<?php echo site_url('pages/form');?>">
+       <button type="button" class="btn btn-primary ">Add new document</button>
+       </a>
 		  <?php foreach ($uploads as $upload_item): ?>
 
-        <h3><?php echo $upload_item['description']; ?></h3>
+        <h4><?php echo $upload_item['title']; ?></h4>
         <div class="main">
                 <?php echo $upload_item['id']; ?>
                 
-<?php endforeach; ?>
+          <p><a href ="<?php echo site_url('pages/form/'.$upload_item['slug']);?>">edit</a></p>    
+             </br>
+                </br>
+    <?php endforeach; ?>
+ 
 
         </div>
       
