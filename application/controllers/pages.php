@@ -63,13 +63,16 @@ class Pages extends CI_Controller {
         {
                         $this->load->helper('form');
                         $this->load->library('form_validation');
+                         $this->load->library('CI_input');
 
 
+                        
                         if (is_null($slug))
                         $data['headtitle'] = 'Upload item';
                         else{
                         $data['headtitle'] = 'Edit item';
                         $data['uploads'] = $this->IEEE_model->get_uploads($slug);
+                        $check=true;
                        
                         }
                         $this->form_validation->set_rules('description', 'Discription', 'required');
@@ -85,10 +88,14 @@ class Pages extends CI_Controller {
                         }
                         else
                         {
-                                if (!isset($data['uploads'])){
-                                      $this->IEEE_model->set_uploads();}
-                                else {
+                              $check= $this->input->post['id'];
+                                    if (($check=='1')){
+                                         die ("sdasdasd"); 
                                       $this->IEEE_model->edit_uploads();}
+                          
+                                else {
+                                           
+                                                $this->IEEE_model->set_uploads();}  
                                 $this->view('listadmin');
                                 
                         }

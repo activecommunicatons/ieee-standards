@@ -72,9 +72,10 @@
             echo form_textarea("description",$uploads['description'],"class=form-control");?>
             </br>
         <?php    echo form_label("File Name: ","filename");
-            echo form_input("filename",$uploads['filename'],"class=form-control");?>
+            echo form_input("filename",$uploads['filename'],"class=form-control");
+            echo  form_hidden('id', $uploads['id']);?>
             </br>
-        
+           
       <?php }?>
        
  
