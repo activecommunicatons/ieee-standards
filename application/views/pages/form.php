@@ -32,12 +32,15 @@
           
        <h2><?php echo $headtitle; ?></h2>
        <?php echo validation_errors(); ?>
+       </br>
+       <?php echo $error['error'];?>
 
 
 <div class="col-lg-4 form-group">
     
+
     
-<?php echo form_open('pages/formsubmit');
+<?php echo form_open_multipart('pages/formsubmit');//echo form_open('pages/formsubmit');
        if(!isset($uploads)){
             echo form_label("Title: ","title");
             if (empty(form_error('title'))){
@@ -56,9 +59,14 @@
         <?php    echo form_label("File Name: ","filename");
             echo form_input("filename","","class=form-control");?>
             </br>
+           
+            <input type="file" name="userfile" size="20" />
+            
+            <br />
+
         <?php 
       }
-        
+            
     else {      
             echo form_label("Title: ","title");
             if (empty(form_error('title'))){
@@ -79,14 +87,23 @@
             echo  form_hidden('id', $uploads['id']);?>
             </br>
            
+
+            <input type="file" name="userfile" size="20" />
+                
+            <br />
+           
       <?php }?>
        
  
             <button type="reset" class="btn btn-default">Cancel</button>
         <button type="submit" class="btn btn-primary">Submit</button>
-        
-   </br>
-   </form>
+         <?php if(isset($uploads)){?>
+        <a href="<?php echo site_url('pages/delete/'.$uploads['id']);?>" onclick="return confirm('Are you sure?');">
+         <input type='button' class='btn btn-danger' value='Delete'>
+         </a>
+         <?php }?>
+       </form>
+     </br>
 </div> 
 </div>
 </div>

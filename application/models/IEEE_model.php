@@ -6,16 +6,20 @@ class IEEE_model extends CI_Model {
                 $this->load->database();
         }
         
-        public function get_uploads($slug = null)
+        public function get_uploads($like = NULL)
 	{
-               if(is_null($slug))
+               if(is_null($like))
                   {       
                 $query = $this->db->get('uploads');
                
-                return $query->result_array();
+               
                     }
-		$query = $this->db->get_where('uploads', array('slug' => $slug));
-                return $query->row_array();
+                else{    
+                        $this->db->like('title',$like);
+		$query = $this->db->get('uploads');
+               
+                }
+                 return $query->result_array();
 	}
          public function set_uploads()
         {
@@ -49,6 +53,11 @@ class IEEE_model extends CI_Model {
                 
                 return $this->db->replace('uploads', $data);
                     }
+          
+         public function del_uploads($id){
+                                     
+                return $this->db->delete('uploads', array('id' => $id));
+                    }           
 }
 
 

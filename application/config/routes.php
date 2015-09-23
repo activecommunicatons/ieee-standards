@@ -53,9 +53,10 @@ $route['news/create'] = 'news/create';
 $route['news/(:any)'] = 'news/view/$1';
 $route['news'] = 'news';
 $route['(:any)'] = 'pages/view/$1';
-$route['default_controller'] = 'pages/view';
+$route['default_controller'] = 'pages/index';
 $route['pages/form/(:any)'] = 'pages/form/$1';
 $route['pages/formsubmit'] = 'pages/formsubmit';
 $route['pages/listadmin'] = 'pages/view/listadmin';
-
+$route['pages'] = 'pages/index';
+$route['pages/delete/(:any)'] = 'pages/delete/$1';
 

@@ -10,9 +10,9 @@ class Pages extends CI_Controller {
                 $this->load->library('form_validation');
         }
   
-        public function view($page = 'list')
+        public function view($page = 'list',$query=NULL)
         {
-                
+                         $this->load->helper('form');
                         if ( ! file_exists(APPPATH.'/views/pages/'.$page.'.php'))
                         {
                                 // Whoops, we don't have a page for that!
@@ -23,7 +23,7 @@ class Pages extends CI_Controller {
                         
                         $data['title'] = ucfirst($page); // Capitalize the first letter
                         $data['text'] = "This is test text";
-                        $data['uploads'] = $this->IEEE_model->get_uploads();
+                        $data['uploads'] = $this->IEEE_model->get_uploads($query);
                            $this->load->view('templates/header', $data);
                         $this->load->view('pages/'.$page, $data);
                         $this->load->view('templates/footer', $data);   
@@ -64,35 +64,67 @@ class Pages extends CI_Controller {
                 $this->form_validation->set_rules('description', 'Discription', 'required');
                 $this->form_validation->set_rules('filename', 'File Name', 'required');
                 $this->form_validation->set_rules('title', 'Title', 'required');
+                $config['upload_path']          = './uploads/';
+                $config['allowed_types']        = 'gif|jpg|png|pdf';
+                $config['max_size']             = 10000;
+                $config['file_name']             = $this->input->post('filename');
+                $this->load->library('upload', $config);
                 
-                if ($this->form_validation->run() === FALSE){
-                    $this->form($this->input->post('slug'));
-                }else{
-                    if (is_null($this->input->post('slug'))){
-                        $this->IEEE_model->set_uploads();     
-                    }else{
-                        $this->IEEE_model->edit_uploads();        
-                    }
-                    
-                    $this->view('listadmin');   
+                 if ( !($this->upload->do_upload('userfile')) || ($this->form_validation->run() === FALSE))
+                {
+                        $error = array('error' => $this->upload->display_errors());
+                        
+                        $this->form($this->input->post('slug'),$error);
+                       // $this->form('form', $error);
                 }
+                else
+                {    
+                        if (is_null($this->input->post('slug'))){
+                                   $this->IEEE_model->set_uploads(); 
+                                   $data = array('upload_data' => $this->upload->data());    
+                         }else{
+                                    $this->IEEE_model->edit_uploads();  
+                                    $data = array('upload_data' => $this->upload->data());      
+                              }
+                
+                       $this->view('listadmin');   
+                  }
                 
                 //$this->form($this->input->post('slug'));
         }
-        public function form($slug = NULL)
-        {
+        public function form($slug = NULL,$error=NULL)
+        {       
+                
                 $this->load->helper('form');                        
                 $this->load->library('CI_input');
+            
                 if (is_null($slug)){
                         $data['headtitle'] = 'Upload item';
+                        $data['error'] =$error;
                 }else{
                         $data['headtitle'] = 'Edit item';
+                        $data['error'] =$error;
                         $data['uploads'] = $this->IEEE_model->get_uploads($slug);
-                        $check=true;
+                       
                 }
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('pages/form');
                 $this->load->view('templates/footer');   
         }
+        
+       public function delete($id)
+       {   
+              
+                $this->IEEE_model->del_uploads($id);
+              $this->view('listadmin');    
+       }
+       
+     public function query()
+       {   
+                $this->load->library('CI_input');
+                $query=$this->input->post('query');
+                $this->view('listadmin',$query);
+                  
+       }
 }
