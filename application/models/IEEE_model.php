@@ -58,6 +58,32 @@ class IEEE_model extends CI_Model {
                                      
                 return $this->db->delete('uploads', array('id' => $id));
                     }           
+                    
+                    
+        public function get($slug)
+	                       {
+                
+                $query = $this->db->get_where('uploads',array('slug'=> $slug));
+                return $query->row_array();
+               
+                    }
+
+
+            public function get_user($data = NULL)
+	{
+               if(is_null($data))
+                  {       
+                $query = $this->db->get('admin');
+                return $query->result_array();
+               
+                    }
+                else{    
+                       
+		$query = $this->db->get_where('admin',array('member_num'=>$data['member_num'],'hashed_password'=>$data['password']));
+                 return $query->row_array();
+                }
+                
+	}
 }
 
 

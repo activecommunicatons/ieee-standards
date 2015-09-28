@@ -11,7 +11,7 @@ class Pages extends CI_Controller {
         }
   
         public function view($page = 'list',$query=NULL)
-        {
+        {               $this->load->library('session');
                          $this->load->helper('form');
                         if ( ! file_exists(APPPATH.'/views/pages/'.$page.'.php'))
                         {
@@ -25,6 +25,7 @@ class Pages extends CI_Controller {
                         $data['text'] = "This is test text";
                         $data['uploads'] = $this->IEEE_model->get_uploads($query);
                            $this->load->view('templates/header', $data);
+                           $this->load->view('templates/navigation',$data);
                         $this->load->view('pages/'.$page, $data);
                         $this->load->view('templates/footer', $data);   
                         //$this->load->view('templates/footer', $data);
@@ -32,17 +33,18 @@ class Pages extends CI_Controller {
         
                  
         public function index(){
+                         $this->load->library('session');
                         $this->load->helper('url');       
                         $this->load->helper('form');
                        
                         
                         
                 
-                
+                         $data['loggedin']= NULL;
                         $data['title'] = 'Create a news item';
                 
-                        $this->form_validation->set_rules('email', 'Email', 'required',
-                        array('required' => 'You must provide a email.')
+                        $this->form_validation->set_rules('member_num', 'Membership Number', 'required',
+                        array('required' => 'You must provide a Membership Number.')
                         );
                         $this->form_validation->set_rules('password', 'password', 'required');
                         $this->form_validation->set_error_delimiters('<h3>', '</h3>');
@@ -50,13 +52,18 @@ class Pages extends CI_Controller {
                         {
                                 $data['error']='nhi chala';
                                 $this->load->view('templates/header', $data);
+                                $this->load->view('templates/navigation',$data); 
                                 $this->load->view('pages/index');
                         
                         }
                         else
-                        {
+                        {       $data['member_num'] = $this->input->post('member_num');
+                                $data['password']=$this->input->post('password');
+                                 $data['user']=$this->IEEE_model->get_user($data);
+                               $data['loggedin']=    $this->loggedin($data);
                                 $this->load->view('templates/header', $data);
-                                $this->load->view('pages/list', $data); 
+                                $this->load->view('templates/navigation',$data);
+                                $this->load->view('pages/index', $data); 
                         }     
        }
         
@@ -94,7 +101,7 @@ class Pages extends CI_Controller {
         }
         public function form($slug = NULL,$error=NULL)
         {       
-                
+                   $this->load->library('session');
                 $this->load->helper('form');                        
                 $this->load->library('CI_input');
             
@@ -104,12 +111,13 @@ class Pages extends CI_Controller {
                 }else{
                         $data['headtitle'] = 'Edit item';
                         $data['error'] =$error;
-                        $data['uploads'] = $this->IEEE_model->get_uploads($slug);
+                        $data['uploads'] = $this->IEEE_model->get($slug);
                        
                 }
 
                 $this->load->view('templates/header', $data);
-                $this->load->view('pages/form');
+                $this->load->view('templates/navigation',$data);
+                $this->load->view('pages/form',$data);
                 $this->load->view('templates/footer');   
         }
         
@@ -124,7 +132,26 @@ class Pages extends CI_Controller {
        {   
                 $this->load->library('CI_input');
                 $query=$this->input->post('query');
-                $this->view('listadmin',$query);
+                $page = $this->input->post('page');
+                $this->view($page,$query);
                   
        }
+       
+       public function loggedin($data){
+               
+              $this->load->library('session'); 
+             $this->session->set_userdata($data['user']);
+             return true;
+              
+       }
+       public function confirm_logged_in(){
+		  if(!$this->logged_in()){
+ 	       $this->index();
+                                        }
+                                }
+         public function logout(){
+          $this->load->library('session');                          
+       $this->session->sess_destroy(); 
+         redirect('/pages/index','refresh');
+         }
 }

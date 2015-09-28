@@ -1,25 +1,21 @@
+ <?php if ( !isset($_SESSION['id']) ) {?>
 <body>
-
+ 
     <nav class="navbar navbar-default  navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+        
        
           <a class="navbar-brand" href="#">Project name</a>
         </div>
           
         <div id="navbar" class="navbar-collapse collapse">
-         
-         <form method="post" accept-charset="utf-8" action="<?php echo base_url();?>/index.php/pages/index"
-          class="navbar-form navbars-right">            
+      
+         <form method="post" accept-charset="utf-8" action="<?php echo base_url();?>pages/index"
+          class="navbar-form navbars-left">            
 
                       <div class="form-group">
-             <?php echo form_input("email","","class=form-control");?>
+             <?php echo form_input("member_num","","class=form-control");?>
                       
              
              </div>
@@ -27,15 +23,17 @@
                <?php echo form_password("password","","class=form-control");?>
             </div>
             <button type="submit" class="btn btn-default">Sign in</button>
+            
 
 </form>
 
+   
    </div><!--/.navbar-collapse -->
 
       </div>
            
     </nav>   
-           
+   <?php }?>        
         
 
     <!-- Main jumbotron for a primary marketing message or call to action -->

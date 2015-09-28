@@ -1,27 +1,7 @@
 
-<body>
+<?php if((isset($_SESSION['id']))  && ($_SESSION['message'] =='Super')) {  
+   ?>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-           
         
 
   
@@ -94,8 +74,9 @@
            
       <?php }?>
        
- 
-            <button type="reset" class="btn btn-default">Cancel</button>
+             <a href="<?php echo site_url('pages/view/listadmin');?>" onclick="return confirm('Are you sure?');">
+            <input type='button' class="btn btn-default" value='Cancel'>
+            </a>
         <button type="submit" class="btn btn-primary">Submit</button>
          <?php if(isset($uploads)){?>
         <a href="<?php echo site_url('pages/delete/'.$uploads['id']);?>" onclick="return confirm('Are you sure?');">
@@ -117,3 +98,6 @@
 
 </body>
 
+<?php } else {
+  redirect('/pages/index');
+}?>
